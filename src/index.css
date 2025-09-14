@@ -1,0 +1,14 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #0f172a; /* dark background */
+  color: #f8fafc; /* light text */
+}
+
+h2, h3 {
+  color: #93c5fd; /* light blue headings */
+}
+
+button {
+  cursor: pointer;
+}

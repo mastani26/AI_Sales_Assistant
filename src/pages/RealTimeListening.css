@@ -1,0 +1,77 @@
+/* RealTimeListening.css - improved readability and layout */
+
+:root {
+  --bg: #0f172a;
+  --card-bg: #0b1220;
+  --card-alt: #0d1b2a;
+  --primary: #60a5fa;
+  --text: #e6f2ff;
+  --muted: #9aa8b2;
+  --shadow: 0 10px 30px rgba(2, 132, 199, 0.12);
+}
+
+.grid-realtime {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+/* Controller spans full width */
+.grid-realtime .controller {
+  grid-column: 1 / -1;
+}
+
+/* Bottom two boxes split evenly */
+.grid-realtime .tips {
+  grid-column: span 6;
+}
+.grid-realtime .why {
+  grid-column: span 6;
+}
+
+@media (max-width: 900px) {
+  .grid-realtime {
+    grid-template-columns: 1fr;
+  }
+  .grid-realtime .controller,
+  .grid-realtime .tips,
+  .grid-realtime .why {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Card style matches Card component styling but provides local overrides */
+.card {
+  background: linear-gradient(180deg, rgba(13,27,42,0.85), rgba(11,18,32,0.95));
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(148,163,184,0.08);
+}
+
+/* text colors */
+.card p, .card li {
+  color: var(--text);
+  margin: 6px 0;
+}
+.card h2, .card h3 {
+  color: var(--primary);
+  margin: 0 0 6px;
+}
+
+.row { display:flex; gap:12px; align-items:center; }
+
+.btn {
+  padding: 10px 16px;
+  background: linear-gradient(180deg, var(--primary), #22d3ee);
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #04121d;
+  box-shadow: var(--shadow);
+}
+.btn:hover { transform: translateY(-2px); }
+
+.muted { color: var(--muted); font-size: 14px; }

@@ -1,0 +1,19 @@
+.suggestions-container {
+  padding: 30px;
+}
+
+.suggestion-box {
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.suggestion-box h3 {
+  color: #93c5fd;
+}
+
+.suggestion-box li {
+  margin-bottom: 6px;
+  color: #e0f2fe;
+}

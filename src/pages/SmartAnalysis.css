@@ -1,0 +1,28 @@
+.grid-analysis {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr;
+}
+
+/* history full-width first */
+.history-col { grid-column: 1 / -1; }
+
+/* analytics row: two columns on wide screens */
+.analytics-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+/* conclusions full width */
+.conclusions-row ol{ 
+    list-style: none;
+    grid-column: 1 / -1; 
+}
+
+@media (max-width: 900px) {
+  .analytics-row { grid-template-columns: 1fr; }
+}
+.card { background: linear-gradient(180deg, rgba(13,27,42,0.9), rgba(11,18,32,0.98)); border-radius: 14px; padding: 18px; color: #e6f2ff; }
+.muted { color: #9aa8b2; }
+

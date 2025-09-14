@@ -1,0 +1,19 @@
+.header {
+  background: #1e293b;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  color: #93c5fd;
+}
+
+nav a {
+  margin-left: 20px;
+  color: #f8fafc;
+  text-decoration: none;
+}
+
+
