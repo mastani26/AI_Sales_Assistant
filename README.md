@@ -1,14 +1,14 @@
 # AI Sales Call Assistant  
 
 This project is an **AI-powered sales call assistant**.  
-It analyzes customer messages or transcripts (text input only) for **sentiment** and **tone**, and automatically logs the results into a **Google Sheet** for easy tracking.  
+It analyzes customer messages and transcripts for **sentiment** and **tone**, and automatically logs the results into a **Google Sheet** for easy tracking.  
 
 ---
 
 ## 🚀 Features
 - Real-time **sentiment analysis** (Positive / Negative / Neutral).  
 - **Tone detection** (Upset, Friendly, Polite, Neutral, Angry).  
-- Works with **text input**.  
+- Works with **voice input**.  
 - Automatic logging into **Google Sheets** with 4 columns:  
   - Transcript  
   - Sentiment  
@@ -90,4 +90,5 @@ SHEET_ID = "YOUR_SHEET_ID"
 
 👨‍💻 Author
 Made with ❤️ for learning AI + Web Development.
+
 
