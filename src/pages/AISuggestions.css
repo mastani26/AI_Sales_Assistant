@@ -1,19 +1,81 @@
+/* AISuggestions.css */
 .suggestions-container {
-  padding: 30px;
+  padding: 16px;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: #f1f5f9;
+}
+
+.ai-input-section {
+  display: flex;
+  gap: 8px;
+  background: rgba(8, 12, 18, 0.5);
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+.ai-input-section input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: #0f172a;
+  color: #f1f5f9;
+}
+
+.ai-input-section button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.ai-input-section button:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.ai-input-section button:disabled {
+  background: #475569;
+  cursor: not-allowed;
+}
+
+.ai-response {
+  margin-top: 12px;
+  background: linear-gradient(180deg, rgba(10,16,24,0.45), rgba(6,10,14,0.25));
+  padding: 12px;
+  border-radius: 10px;
+  color: #f1f5f9;
+}
+
+.error {
+  color: #f87171;
+  margin-top: 8px;
+  font-weight: 700;
 }
 
 .suggestion-box {
+  margin-top: 16px;
   background: #1e293b;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 20px;
+  padding: 12px;
+  border-radius: 10px;
 }
 
 .suggestion-box h3 {
+  margin-bottom: 8px;
+  font-size: 1.1rem;
   color: #93c5fd;
+}
+
+.suggestion-box ul {
+  padding-left: 18px;
+  list-style: disc;
 }
 
 .suggestion-box li {
   margin-bottom: 6px;
-  color: #e0f2fe;
+  line-height: 1.4;
 }
