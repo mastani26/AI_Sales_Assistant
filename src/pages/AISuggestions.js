@@ -1,11 +1,100 @@
-import React from "react";
+import React, { useState } from "react";
 import "./AISuggestions.css";
 
-function AISuggestions() {
+export default function AISuggestions() {
+  const [query, setQuery] = useState("");
+  const [aiResponse, setAIResponse] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // Keyword-based heuristic for suggestions
+  const cannedResponses = (q) => {
+    const lower = (q || "").toLowerCase();
+    const brands = [];
+
+    // Footwear
+    if (lower.includes("shoe") || lower.includes("sneaker") || lower.includes("running")) {
+      brands.push("Nike", "Adidas", "Puma", "New Balance");
+    }
+
+    // Clothing / Fashion
+    if (lower.includes("clo") || lower.includes("shirt") || lower.includes("pant") || lower.includes("jean") || lower.includes("fashion")) {
+      brands.push("Zara", "H&M", "Uniqlo", "Levi's", "Mango");
+    }
+
+    // Luxury / Designer
+    if (lower.includes("lux") || lower.includes("designer") || lower.includes("premium") || lower.includes("brand")) {
+      brands.push("Gucci", "Prada", "Louis Vuitton", "Armani");
+    }
+
+    // Tech / Electronics
+    if (lower.includes("tech") || lower.includes("phone") || lower.includes("laptop") || lower.includes("camera")) {
+      brands.push("Apple", "Samsung", "OnePlus", "Sony");
+    }
+
+    // Hair / Skin / Beauty
+    if (lower.includes("hair") || lower.includes("oil") || lower.includes("growth") || lower.includes("skin") || lower.includes("skincare")) {
+      brands.push("Indulekha", "Kama Ayurveda", "Dabur Amla", "Himalaya Herbals", "Biotique");
+    }
+
+    // Food / Supplements
+    if (lower.includes("protein") || lower.includes("nutrition") || lower.includes("vitamin")) {
+      brands.push("MuscleBlaze", "Optimum Nutrition", "Herbalife", "GNC");
+    }
+
+    // Default fallback
+    if (!brands.length) {
+      brands.push("Nike", "Zara", "Levi's", "Apple", "Gucci");
+    }
+
+    const unique = Array.from(new Set(brands)).slice(0, 6);
+    return `Based on your query, consider these brands: ${unique.join(", ")}.`;
+  };
+
+  const handleSubmit = () => {
+    setError("");
+    if (!query) {
+      setError("Please enter a customer query.");
+      return;
+    }
+    setLoading(true);
+    try {
+      const resp = cannedResponses(query);
+      setAIResponse(resp);
+    } catch (err) {
+      console.error(err);
+      setError("Something went wrong. Try again.");
+      setAIResponse("");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="suggestions-container">
-      <h2>💡 AI Suggestions</h2>
+      <h2>💡 AI Sales Call Assistant — Quick Query</h2>
 
+      <div className="ai-input-section">
+        <input
+          type="text"
+          placeholder="Customer question (e.g. 'Which hair oils are best for growth?')"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <button onClick={handleSubmit} disabled={loading}>
+          {loading ? "Processing..." : "Ask"}
+        </button>
+        {error && <p className="error">{error}</p>}
+      </div>
+
+      {aiResponse && (
+        <div className="ai-response">
+          <h3>AI Suggestions</h3>
+          <p>{aiResponse}</p>
+        </div>
+      )}
+
+      {/* ------------------ Offline suggestion boxes ------------------ */}
       <div className="suggestion-box">
         <h3>Improve Engagement</h3>
         <ul>
@@ -41,9 +130,6 @@ function AISuggestions() {
           <li>“How would you feel about a quick demo of the solution tailored to your scenario?”</li>
         </ul>
       </div>
-
     </div>
   );
 }
-
-export default AISuggestions;
