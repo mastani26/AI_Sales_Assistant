@@ -1,77 +1,137 @@
-/* RealTimeListening.css - improved readability and layout */
-
+/* RealTimeListening.css - polished UI with animations and hover effects */
+/* Colors preserved from your original design */
 :root {
   --bg: #0f172a;
   --card-bg: #0b1220;
   --card-alt: #0d1b2a;
   --primary: #60a5fa;
+  --accent: #22d3ee;
   --text: #e6f2ff;
   --muted: #9aa8b2;
+  --success: #10b981;
+  --danger: #f87171;
   --shadow: 0 10px 30px rgba(2, 132, 199, 0.12);
 }
 
-.grid-realtime {
+.rt-container {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 20px;
-  align-items: start;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  max-width: 1100px;
+  margin: 18px auto;
+  padding: 8px;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
-/* Controller spans full width */
-.grid-realtime .controller {
-  grid-column: 1 / -1;
-}
-
-/* Bottom two boxes split evenly */
-.grid-realtime .tips {
-  grid-column: span 6;
-}
-.grid-realtime .why {
-  grid-column: span 6;
-}
-
-@media (max-width: 900px) {
-  .grid-realtime {
-    grid-template-columns: 1fr;
-  }
-  .grid-realtime .controller,
-  .grid-realtime .tips,
-  .grid-realtime .why {
-    grid-column: 1 / -1;
-  }
-}
-
-/* Card style matches Card component styling but provides local overrides */
+/* Card overrides ... assume .card base exists in Card component */
 .card {
-  background: linear-gradient(180deg, rgba(13,27,42,0.85), rgba(11,18,32,0.95));
+  background: linear-gradient(180deg, rgba(13,27,42,0.9), rgba(11,18,32,0.96));
   border-radius: 14px;
   padding: 18px;
   box-shadow: var(--shadow);
-  border: 1px solid rgba(148,163,184,0.08);
-}
-
-/* text colors */
-.card p, .card li {
+  border: 1px solid rgba(148,163,184,0.06);
   color: var(--text);
-  margin: 6px 0;
+  transition: transform 220ms ease, box-shadow 220ms ease;
 }
-.card h2, .card h3 {
-  color: var(--primary);
-  margin: 0 0 6px;
+.card:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(2,132,199,0.14); }
+
+.ctrl-row {
+  display:flex;
+  justify-content: space-between;
+  align-items:center;
+  gap:12px;
 }
-
-.row { display:flex; gap:12px; align-items:center; }
-
-.btn {
-  padding: 10px 16px;
-  background: linear-gradient(180deg, var(--primary), #22d3ee);
-  border: none;
+.transcript-block { margin-top:12px; }
+.transcript-header { display:flex; justify-content:space-between; align-items:center; gap:10px; }
+.transcript-body {
+  margin-top:10px;
+  min-height:70px;
+  background: linear-gradient(180deg, rgba(13,20,30,0.6), rgba(10,14,20,0.4));
   border-radius: 10px;
-  font-weight: 700;
-  cursor: pointer;
-  color: #04121d;
-  box-shadow: var(--shadow);
+  padding: 14px;
+  color: var(--text);
+  line-height:1.45;
+  transition: background 250ms ease;
 }
-.btn:hover { transform: translateY(-2px); }
 
-.muted { color: var(--muted); font-size: 14px; }
+/* Sentiment badge */
+.sentiment-row { display:flex; justify-content:space-between; align-items:center; margin-top:12px; gap:10px; }
+.sentiment-badge {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  font-weight: 700;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.sentiment-badge.positive { border: 1px solid rgba(16,185,129,0.12); background: rgba(16,185,129,0.06); }
+.sentiment-badge.negative { border: 1px solid rgba(248,113,113,0.12); background: rgba(248,113,113,0.04); }
+.sentiment-badge.neutral { border: 1px solid rgba(148,163,184,0.06); background: rgba(148,163,184,0.02); }
+
+/* Buttons */
+.btn {
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.btn:hover { transform: translateY(-3px); }
+.btn.primary {
+  background: linear-gradient(180deg, var(--primary), var(--accent));
+  color: #04121d;
+  box-shadow: 0 8px 20px rgba(96,165,250,0.14);
+}
+.btn.ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid rgba(148,163,184,0.06);
+}
+.btn.small { padding: 6px 10px; font-weight: 700; border-radius: 8px; }
+
+/* Lookup area */
+.lookup-row { display:flex; flex-direction:column; gap:12px; }
+.toggle-group { display:flex; gap:8px; align-items:center; }
+.toggle { display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:8px; cursor:pointer; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.02); }
+.toggle.active { background: linear-gradient(90deg, rgba(96,165,250,0.06), rgba(34,211,238,0.04)); border-color: rgba(96,165,250,0.14); }
+.toggle input { display:none; }
+.lookup-inputs { display:flex; gap:12px; align-items:center; margin-top:6px; flex-wrap:wrap; }
+.input { flex:1; padding:10px 12px; border-radius:10px; border:none; background:#0f172a; color:var(--text); box-shadow: inset 0 1px 0 rgba(255,255,255,0.02); }
+
+/* Customer card */
+.customer-card { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:12px; padding:12px; background:var(--card-alt); border-radius:10px; }
+.customer-left h4 { margin:0; color:var(--primary); }
+.customer-left p { margin:6px 0; color:var(--text); }
+.muted { color:var(--muted); font-size:13px; }
+
+/* AI suggestions area */
+.ai-dynamic { display:flex; flex-direction:column; gap:12px; }
+.ai-response-block { min-height:64px; border-radius:10px; padding:12px; background: linear-gradient(180deg, rgba(10,16,24,0.45), rgba(6,10,14,0.25)); color:var(--text); transition: transform 220ms ease; }
+.ai-text { white-space:pre-wrap; line-height:1.5; }
+
+/* Recommendations list */
+.reco-list { list-style:none; padding:0; margin:8px 0 0 0; display:flex; flex-direction:column; gap:8px; }
+.reco-item { display:flex; justify-content:space-between; align-items:center; padding:10px; border-radius:10px; background: rgba(255,255,255,0.02); }
+.reco-cta { display:flex; gap:8px; align-items:center; }
+
+/* Suggestions grid (original boxes) */
+.suggestions-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; margin-top:12px; }
+.suggestion-box { padding:12px; border-radius:10px; background: linear-gradient(180deg, rgba(8,12,18,0.4), rgba(3,6,10,0.2)); }
+.suggestion-box h5 { color:var(--primary); margin:0 0 6px 0; }
+.suggestion-box ul { margin:0; padding-left:18px; color:var(--text); }
+
+/* Summary area */
+.summary-area { display:flex; flex-direction:column; gap:12px; margin-top:8px; }
+.summary-card { margin-top:8px; padding:12px; border-radius:10px; background: rgba(16,24,36,0.6); }
+
+/* small screens */
+@media (max-width: 900px) {
+  .suggestions-grid { grid-template-columns: 1fr; }
+  .ctrl-row { flex-direction:column; align-items:flex-start; gap:12px; }
+  .lookup-inputs { flex-direction:column; align-items:stretch; }
+}
+
+
