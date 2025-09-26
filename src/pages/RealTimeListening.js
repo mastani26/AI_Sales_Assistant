@@ -251,7 +251,7 @@ export default function RealTimeListening({ history, setHistory }) {
 
   // -------- Post Call Summary --------
   const handleGenerateSummary = async () => {
-  if (!transcript || !customer) return;
+  
   setLoadingSummary(true);
   try {
     const payload = { transcript, sentiment, customer };
@@ -264,16 +264,18 @@ export default function RealTimeListening({ history, setHistory }) {
     const data = await res.json();
 
     if (data?.summary) {
-      setPostSummaryList((prev) => [
-        ...prev,
-        { text: data.summary, date: new Date().toLocaleString() },
-      ]);
-    } else {
-      setPostSummaryList((prev) => [
-        ...prev,
-        { text: "No summary returned.", date: new Date().toLocaleString() },
-      ]);
-    }
+  setPostSummaryList((prev) => [
+    ...prev,
+    { text: data.summary, date: new Date().toLocaleString() },
+  ]);
+} else {
+  // ✅ Always display fallback summary from backend if available
+  setPostSummaryList((prev) => [
+    ...prev,
+    { text: data.summary || "Summary could not be generated.", date: new Date().toLocaleString() },
+  ]);
+}
+
   } catch (err) {
     console.error("summary error", err);
     setPostSummaryList((prev) => [
