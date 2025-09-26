@@ -286,17 +286,35 @@ async def analyze_text(data: dict):
 
 
 # ---------------- POST-CALL SUMMARY ---------------- #
+# ---------------- POST-CALL SUMMARY ---------------- #
 @app.post("/generate-summary")
 async def generate_summary(payload: dict):
     transcript = payload.get("transcript", "")
+    sentiment = payload.get("sentiment", "Not provided")
+    customer = payload.get("customer", "Unknown")
 
+    # ✅ Always handle empty transcript gracefully
     if not transcript.strip():
-        return {"summary": "No transcript provided."}
+        return {
+            "summary": f"""Post-Call Summary: {customer}  
+Date of Call: Not specified  
+Customer: {customer} - Unknown Industry  
+Overall Sentiment: {sentiment}  
+Key Topics:  
+- Budget: Not mentioned  
+- Phone Requirements: Not mentioned  
+- Battery Life: Not mentioned  
+- Previous Purchases: Not mentioned"""
+        }
+
+    # ✅ Prevent token overflow (truncate if huge)
+    MAX_CHARS = 5000
+    if len(transcript) > MAX_CHARS:
+        transcript = transcript[:MAX_CHARS] + " ... [transcript truncated]"
 
     try:
         client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
-        # Force the model to output a structured summary
         prompt = f"""
 You are an AI assistant that generates professional **Post-Call Summaries**.
 
@@ -305,39 +323,50 @@ Transcript:
 
 Format the summary exactly like this:
 
-Post-Call Summary: [Customer Name] ([Customer ID])  
+Post-Call Summary: {customer}  
 Date of Call: [Insert Date of Call Here]  
-Customer: [Customer Name] ([Customer ID]) - [Industry]  
-Overall Sentiment: [Brief Sentiment Analysis]  
+Customer: {customer} - [Industry if found]  
+Overall Sentiment: {sentiment}  
 Key Topics:  
-- Budget: [Budget Info]  
-- Phone Requirements: [Requirements Info]  
-- Battery Life: [Battery-related Info]  
+- Budget: [Budget Info if found, else "Not mentioned"]  
+- Phone Requirements: [Requirements Info if found, else "Not mentioned"]  
+- Battery Life: [Battery-related Info if found, else "Not mentioned"]  
 - Previous Purchases: [Mention past purchases if available]
-
-Now generate the Post-Call Summary based only on the transcript provided.
 """
 
         response = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model="llama-3.3-70b-versatile",  # ✅ faster, reliable
             messages=[
                 {"role": "system", "content": "You are a helpful assistant for call center summaries."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.3,
-            max_tokens=500,
+            max_tokens=600,
         )
 
-        summary_text = response.choices[0].message.content.strip()
-
+        # ✅ Defensive check (avoid 'object not subscriptable' errors)
+        summary_text = (
+            response.choices[0].message.content.strip()
+            if response and response.choices and response.choices[0].message.content
+            else None
+        )
 
         if not summary_text:
-            summary_text = "No summary generated."
+            summary_text = f"""Post-Call Summary: {customer}  
+Date of Call: Not specified  
+Customer: {customer} - Unknown Industry  
+Overall Sentiment: {sentiment}  
+Key Topics:  
+- Budget: Not mentioned  
+- Phone Requirements: Not mentioned  
+- Battery Life: Not mentioned  
+- Previous Purchases: Not mentioned"""
 
         return {"summary": summary_text}
 
     except Exception as e:
         return {"summary": f"Error generating summary: {str(e)}"}
+
 
 
 
